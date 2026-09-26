@@ -369,20 +369,14 @@ if (finePointer && !reduced){
 })();
 })();
 
-/* ---------- scope form: guided intake -> prefilled professional email ---------- */
+/* ---------- scope form: direct email send (no email app popup) ---------- */
 (function(){
   var form=document.getElementById('scope-form'); if(!form) return;
   var err=document.getElementById('form-err'), ok=document.getElementById('form-ok');
+  var btn=form.querySelector('.form-submit');
   function val(id){ var el=document.getElementById(id); return el?el.value.trim():''; }
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var name=val('f-name'), email=val('f-email'), company=val('f-company');
-    err.hidden=true;
-    if(!name||!email||!company||email.indexOf('@')<0||email.indexOf('.')<0){ err.hidden=false; return; }
-    var website=val('f-site'), scope=val('f-scope'), when=val('f-when'), details=val('f-msg');
-    var subject='KDS assessment request: '+company;
-    var body=
-      'Hi KDS team,\n\n'+
+  function buildBody(name,email,company,website,scope,when,details){
+    return 'Hi KDS team,\n\n'+
       "I'd like to request a security assessment.\n\n"+
       'Name: '+name+'\n'+
       'Work email: '+email+'\n'+
@@ -392,7 +386,44 @@ if (finePointer && !reduced){
       'Timeline: '+when+'\n'+
       (details?'\nDetails:\n'+details+'\n':'')+
       '\nSent from karandarjishack.github.io/kds';
-    window.location.href='mailto:Karandarjishack@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  }
+  function mailtoFallback(name,email,company,website,scope,when,details){
+    var subject='KDS assessment request: '+company;
+    window.location.href='mailto:Karandarjishack@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(buildBody(name,email,company,website,scope,when,details));
+  }
+  function showSent(){
+    ok.querySelector('.form-ok-title').textContent='Email sent.';
+    ok.querySelectorAll('p')[1].textContent='Your request is on its way to us. We reply within two business days.';
     ok.hidden=false;
+  }
+  function restoreBtn(orig){ btn.disabled=false; btn.textContent=orig; }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=val('f-name'), email=val('f-email'), company=val('f-company');
+    err.hidden=true;
+    if(!name||!email||!company||email.indexOf('@')<0||email.indexOf('.')<0){ err.hidden=false; return; }
+    var website=val('f-site'), scope=val('f-scope'), when=val('f-when'), details=val('f-msg');
+    var orig=btn.textContent; btn.disabled=true; btn.textContent='Sending…';
+    fetch('https://formsubmit.co/ajax/Karandarjishack@gmail.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        name:name, email:email, company:company,
+        website:website, scope:scope, timeline:when, details:details,
+        _subject:'KDS assessment request: '+company,
+        _template:'table'
+      })
+    }).then(function(res){
+      restoreBtn(orig);
+      if(res.ok){ showSent(); form.reset(); }
+      else { mailtoFallback(name,email,company,website,scope,when,details); showSent(); }
+    }).catch(function(){
+      /* network blocked: fall back to the visitor's email app */
+      restoreBtn(orig);
+      mailtoFallback(name,email,company,website,scope,when,details);
+      ok.querySelector('.form-ok-title').textContent='Request ready.';
+      ok.querySelectorAll('p')[1].textContent='Your email app should open with everything filled in. Press send and it comes straight to us. We reply within two business days.';
+      ok.hidden=false;
+    });
   });
 })();
