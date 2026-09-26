@@ -4,240 +4,313 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KDS — Helping companies from external attack</title>
-<meta name="description" content="KDS: external penetration testing, private bug bounty / vulnerability disclosure programs, and compliance readiness — by a researcher credited with 4 CVEs, Microsoft & Apple MFA bypasses, and 7 Government of India P1 recognitions.">
+<meta name="description" content="KDS is an offensive security practice. We attack your company the way a real adversary would — external pentests, web & API testing, bug bounty programs, and compliance readiness — then prove every hole is closed.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header class="nav">
+<!-- Boot sequence -->
+<div id="boot" aria-hidden="true">
+  <div class="boot-inner">
+    <div class="boot-logo">&gt;_</div>
+    <div class="boot-bar"><span></span></div>
+    <div class="boot-text mono">INITIALIZING ATTACK SURFACE SCAN</div>
+  </div>
+</div>
+
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursor-dot" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header id="nav">
   <div class="nav-inner">
-    <a class="brand" href="#top"><span class="brand-mark">&gt;_</span> KDS</a>
-    <nav class="nav-links" id="navLinks">
+    <a href="#top" class="brand"><span class="brand-mark">&gt;_</span> KDS</a>
+    <nav class="nav-links">
+      <a href="#problem">The Problem</a>
       <a href="#services">Services</a>
-      <a href="#pillars">Pillars</a>
       <a href="#process">Process</a>
-      <a href="#track-record">Track Record</a>
+      <a href="#record">Track Record</a>
       <a href="#pricing">Pricing</a>
-      <a class="btn btn-small" href="#contact">Get in touch</a>
     </nav>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
+    <a href="#contact" class="btn btn-primary btn-sm magnetic">Get assessed</a>
+    <button id="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div id="mobile-menu">
+    <a href="#problem">The Problem</a>
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#record">Track Record</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact" class="btn btn-primary">Get assessed</a>
   </div>
 </header>
 
-<main id="top">
+<!-- ============ HERO ============ -->
+<section id="top" class="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <p class="eyebrow mono">// helping companies from external attack</p>
-    <h1>Find the flaws <span class="accent">before</span> someone else does.</h1>
-    <p class="lede">KDS is an offensive security practice run by a working vulnerability researcher — credited with <strong>4 CVEs</strong>, Microsoft &amp; Apple Authenticator MFA bypasses, critical findings in Meta AI, and <strong>7 Priority-1 recognitions</strong> from the Government of India. We bring that attacker mindset to your external attack surface.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="#services">See what we do</a>
-      <a class="btn btn-ghost" href="#contact">Request a scope</a>
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow mono reveal"><span class="pulse-dot"></span>OFFENSIVE SECURITY · EXTERNAL ATTACK SURFACE</p>
+      <h1 class="reveal" data-delay="80">Find the flaws<br><span class="grad">before someone else does.</span></h1>
+      <p class="hero-sub reveal" data-delay="160">The average US breach costs <strong>$10.22M</strong> and takes <strong>241 days</strong> to contain. KDS attacks your company the way a real adversary would — then proves every hole is closed — for a fraction of one percent of that cost.</p>
+      <div class="hero-ctas reveal" data-delay="240">
+        <a href="#contact" class="btn btn-primary magnetic">Get a security assessment</a>
+        <a href="#process" class="btn btn-ghost magnetic">See how we work</a>
+      </div>
+      <div class="hero-stats reveal" data-delay="320">
+        <div class="hstat"><span class="hstat-num" data-count="10.22" data-prefix="$" data-suffix="M">$0</span><span class="hstat-label">avg. US breach cost · IBM 2025</span></div>
+        <div class="hstat"><span class="hstat-num" data-count="241">0</span><span class="hstat-label">days to identify &amp; contain</span></div>
+        <div class="hstat"><span class="hstat-num" data-count="4">0</span><span class="hstat-label">CVEs credited to our founder</span></div>
+        <div class="hstat"><span class="hstat-num" data-count="7" data-suffix="×">0</span><span class="hstat-label">P1 recognitions · Govt. of India</span></div>
+      </div>
     </div>
-    <div class="stats">
-      <div class="stat"><span class="stat-num">4</span><span class="stat-label">CVEs credited — CVE-2022-33129, CVE-2022-33130, CVE-2022-33131, CVE-2022-33134</span></div>
-      <div class="stat"><span class="stat-num">7&times;</span><span class="stat-label">recognized by the Government of India for Priority 1 vulnerability reports</span></div>
-      <div class="stat"><span class="stat-num">48</span><span class="stat-label">companies researched &amp; prioritized in our current client pipeline</span></div>
+
+    <div class="hero-term reveal" data-delay="200" aria-hidden="true">
+      <div class="term-window">
+        <div class="term-bar"><span class="t-dot r"></span><span class="t-dot y"></span><span class="t-dot g"></span><span class="term-title mono">kds — live engagement</span><span class="term-live mono"><span class="pulse-dot"></span>LIVE</span></div>
+        <div class="term-body mono" id="term-body"></div>
+      </div>
+      <div class="term-caption mono">sanitized excerpt · real engagement pattern</div>
+    </div>
+  </div>
+
+  <a href="#problem" class="scroll-hint mono" aria-label="Scroll">SCROLL<span></span></a>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track mono" id="ticker-track">
+    <span>CVE-2022-33129 · AUTH BYPASS · <b>PATCHED</b></span><i>◆</i>
+    <span>MFA BYPASS · AUTHENTICATOR FLOW · <b>REPORTED</b></span><i>◆</i>
+    <span>EXPOSED CLOUD BUCKET · <b>CLOSED</b></span><i>◆</i>
+    <span>IDOR · /api/v2/users · <b>FIXED</b></span><i>◆</i>
+    <span>7× PRIORITY-1 · GOVT OF INDIA · <b>RECOGNIZED</b></span><i>◆</i>
+    <span>SUBDOMAIN TAKEOVER · <b>REMEDIATED</b></span><i>◆</i>
+    <span>SSRF · CLOUD METADATA · <b>PATCHED</b></span><i>◆</i>
+    <span>SEC.GOV · VULNERABILITY · <b>REPORTED</b></span><i>◆</i>
+  </div>
+</div>
+
+<!-- ============ PROBLEM ============ -->
+<section id="problem" class="section">
+  <div class="container">
+    <p class="eyebrow mono reveal">// the problem, in board terms</p>
+    <h2 class="reveal">Security is no longer<br>an <span class="grad">IT line item.</span></h2>
+    <p class="section-sub reveal">It's a balance-sheet risk, a revenue gate, and a headline waiting to happen. Here's how CEOs actually experience it:</p>
+    <div class="cards-3">
+      <article class="pcard reveal">
+        <div class="pcard-num mono">01</div>
+        <div class="pcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></div>
+        <h3>You see your network from the inside. Attackers see it from the outside.</h3>
+        <p>Your team manages infrastructure. Adversaries map what's <em>exposed</em> — forgotten subdomains, misconfigured storage, unpatched edge devices, weak login flows. External testing closes the blind spot you can't see from your own dashboard.</p>
+      </article>
+      <article class="pcard reveal" data-delay="120">
+        <div class="pcard-num mono">02</div>
+        <div class="pcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+        <h3>A breach is a business event, not an IT event.</h3>
+        <p>The average US breach now costs <strong>$10.22M</strong> and takes <strong>241 days</strong> to identify and contain — before lawsuits, churn, and headlines. Prevention isn't overhead. It's the cheapest line on the P&amp;L. <span class="cite">— IBM Cost of a Data Breach Report, 2025</span></p>
+      </article>
+      <article class="pcard reveal" data-delay="240">
+        <div class="pcard-num mono">03</div>
+        <div class="pcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div>
+        <h3>Security questionnaires have become revenue gates.</h3>
+        <p>Enterprise deals now stall in vendor review. SOC 2, HIPAA, and PCI evidence — including an independent pentest — is what unblocks them. We turn compliance from a scramble into a sales asset.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section id="services" class="section">
+<!-- ============ SERVICES ============ -->
+<section id="services" class="section section-alt">
   <div class="container">
-    <p class="eyebrow mono">// services</p>
-    <h2>What we provide</h2>
-    <p class="section-sub">Right-sized engagements for startups, healthcare, fintech, and everyone in between. No bloated retainers, no checkbox theater.</p>
-
-    <h3 class="group-title">Offensive security testing</h3>
-    <div class="cards">
-      <div class="card">
-        <h4>External Network Pentest</h4>
-        <p>Recon, vulnerability scanning, and manual validation of your public attack surface — up to 10 or 50 IPs. Severity-rated findings, exploit evidence, remediation guidance.</p>
-        <p class="mono price">from $3,500</p>
-      </div>
-      <div class="card">
-        <h4>Web Application VAPT</h4>
-        <p>Authentication testing, OWASP Top 10, and the business-logic flaws scanners miss. Standard and complex (SSO, multi-role) scopes.</p>
-        <p class="mono price">from $6,000</p>
-      </div>
-      <div class="card">
-        <h4>API Pentest</h4>
-        <p>REST &amp; GraphQL: broken authorization (IDOR/BOLA), rate limiting, injection, and business-logic abuse across your endpoints.</p>
-        <p class="mono price">from $5,000</p>
-      </div>
-      <div class="card">
-        <h4>Combined External + Web</h4>
-        <p>Perimeter and one web application tested together, delivered as a single report your customers and auditors can actually use.</p>
-        <p class="mono price">from $10,000</p>
-      </div>
-    </div>
-
-    <h3 class="group-title">Vulnerability disclosure &amp; bug bounty programs</h3>
-    <div class="cards">
-      <div class="card">
-        <h4>Private VDP Setup</h4>
-        <p>A published, researcher-friendly disclosure policy on your own domain — scope, safe harbor, and reporting channel, written by someone who has submitted through them.</p>
-        <p class="mono price">scoped per engagement</p>
-      </div>
-      <div class="card">
-        <h4>Managed Triage</h4>
+    <p class="eyebrow mono reveal">// services</p>
+    <h2 class="reveal">What we do <span class="grad">about it.</span></h2>
+    <p class="section-sub reveal">Six engagements. One promise: adversary-minded testing, plain-English reporting, and proof that every finding is fixed.</p>
+    <div class="svcs">
+      <article class="svc reveal">
+        <div class="svc-top"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div><span class="svc-price mono">from $3,500</span></div>
+        <h3>See yourself the way attackers do.</h3>
+        <p class="svc-tag mono">EXTERNAL NETWORK VAPT</p>
+        <p>Recon, vulnerability scanning, and manual validation of your public attack surface — up to 10 or 50 IPs. Severity-rated findings with exploit evidence and remediation guidance.</p>
+      </article>
+      <article class="svc reveal" data-delay="80">
+        <div class="svc-top"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M9 9l-2 2 2 2M15 9l2 2-2 2"/></svg></div><span class="svc-price mono">from $5,000</span></div>
+        <h3>Ship features, not vulnerabilities.</h3>
+        <p class="svc-tag mono">WEB APP &amp; API PENTEST</p>
+        <p>Authentication testing, OWASP Top 10, and the business-logic flaws scanners miss — across web apps, REST, and GraphQL. Standard and complex (SSO, multi-role) scopes.</p>
+      </article>
+      <article class="svc reveal" data-delay="160">
+        <div class="svc-top"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"/><path d="M9.5 12l2 2 3.5-4"/></svg></div><span class="svc-price mono">scoped</span></div>
+        <h3>A standing army of friendly hackers.</h3>
+        <p class="svc-tag mono">PRIVATE VDP &amp; BUG BOUNTY</p>
+        <p>A published, researcher-friendly disclosure policy on your own domain — scope, safe harbor, and reporting channel — written by someone who has submitted through them.</p>
+      </article>
+      <article class="svc reveal">
+        <div class="svc-top"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12a8 8 0 01-8 8H4l2-3a8 8 0 1115-5z"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg></div><span class="svc-price mono">from $1,500/mo</span></div>
+        <h3>Every report answered in hours.</h3>
+        <p class="svc-tag mono">MANAGED VULNERABILITY TRIAGE</p>
         <p>Monthly intake, validation, reproduction, and prioritization of researcher reports — so a published inbox never becomes an unanswered inbox.</p>
-        <p class="mono price">from $1,500/mo</p>
-      </div>
-    </div>
-
-    <h3 class="group-title">Compliance &amp; incident readiness</h3>
-    <div class="cards">
-      <div class="card">
-        <h4>Compliance Readiness Gap</h4>
-        <p>SOC 2, HIPAA, PCI DSS, and CMMC/NIST 800-171 gap assessments with a remediation roadmap — plus the pentest evidence auditors ask for.</p>
-        <p class="mono price">from $4,000</p>
-      </div>
-      <div class="card">
-        <h4>Post-Breach Remediation Pentest</h4>
-        <p>Independent validation that the gaps behind an incident are actually closed — with a retest included, so you can show customers and counsel proof.</p>
-        <p class="mono price">from $8,000</p>
-      </div>
+      </article>
+      <article class="svc reveal" data-delay="80">
+        <div class="svc-top"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 12l2 2 4-4"/><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"/></svg></div><span class="svc-price mono">from $4,000</span></div>
+        <h3>Turn audits into closed deals.</h3>
+        <p class="svc-tag mono">COMPLIANCE READINESS</p>
+        <p>SOC 2, HIPAA, PCI DSS, and CMMC/NIST 800-171 gap assessments with a remediation roadmap — plus the pentest evidence auditors actually ask for.</p>
+      </article>
+      <article class="svc reveal" data-delay="160">
+        <div class="svc-top"><div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 109-9"/><path d="M3 5v4h4"/><path d="M12 8v4l3 2"/></svg></div><span class="svc-price mono">from $8,000</span></div>
+        <h3>Prove you're clean. With evidence.</h3>
+        <p class="svc-tag mono">POST-BREACH VALIDATION</p>
+        <p>Independent verification that the gaps behind an incident are actually closed — retest included, so you can show customers, counsel, and the board proof.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- PILLARS -->
-<section id="pillars" class="section section-dark">
-  <div class="container">
-    <p class="eyebrow mono">// focus pillars</p>
-    <h2>What we focus on</h2>
-    <p class="section-sub">Three pillars. Everything we sell fits under one of them.</p>
-    <div class="cards cards-3">
-      <div class="card pillar">
-        <p class="pillar-num mono">01</p>
-        <h4>Offense</h4>
-        <p>Real attack simulation — network, web, and API testing by someone who finds vulnerabilities for a living. If a scanner could find it, you wouldn't need us.</p>
+<!-- ============ PROCESS (sticky scroll) ============ -->
+<section id="process" class="process">
+  <div class="container process-inner">
+    <div class="process-visual" aria-hidden="true">
+      <p class="eyebrow mono">// how an engagement runs</p>
+      <h2>Five steps.<br><span class="grad">Zero surprises.</span></h2>
+      <div class="pipeline">
+        <div class="pipe-line"><span id="pipe-fill"></span></div>
+        <div class="pipe-node" data-step="0"><span class="pn-dot"></span><span class="pn-label mono">DISCOVER</span></div>
+        <div class="pipe-node" data-step="1"><span class="pn-dot"></span><span class="pn-label mono">SCOPE</span></div>
+        <div class="pipe-node" data-step="2"><span class="pn-dot"></span><span class="pn-label mono">TEST</span></div>
+        <div class="pipe-node" data-step="3"><span class="pn-dot"></span><span class="pn-label mono">REPORT</span></div>
+        <div class="pipe-node" data-step="4"><span class="pn-dot"></span><span class="pn-label mono">RETEST</span></div>
       </div>
-      <div class="card pillar">
-        <p class="pillar-num mono">02</p>
-        <h4>Programs</h4>
-        <p>Disclosure policies and managed triage that turn random researcher emails into a structured, trustworthy intake channel.</p>
-      </div>
-      <div class="card pillar">
-        <p class="pillar-num mono">03</p>
-        <h4>Readiness</h4>
-        <p>Compliance and incident readiness that produces artifacts — pentest reports, gap analyses, retest evidence — that unblock deals, audits, and partnerships.</p>
-      </div>
+      <div class="process-proof mono" id="process-proof">attack surface mapped</div>
     </div>
-
-    <h3 class="group-title">How we're different</h3>
-    <div class="diff-grid">
-      <div class="diff"><h5>Practitioner-led</h5><p>Your testing is done by an active vulnerability researcher — 4 CVEs, MFA bypasses at Microsoft and Apple, P1s for the Government of India — not handed to a junior analyst.</p></div>
-      <div class="diff"><h5>Evidence over checkboxes</h5><p>Every finding comes with proof of exploitability and concrete remediation steps. Reports are written to survive a customer security review.</p></div>
-      <div class="diff"><h5>Right-sized scopes</h5><p>Solo operator, small team. You get senior-level work at scopes and prices built for companies that don't need a Big Four invoice.</p></div>
-      <div class="diff"><h5>Retest included</h5><p>Every engagement includes one retest within 90 days. We don't disappear after the report — we verify the fix.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section id="process" class="section">
-  <div class="container">
-    <p class="eyebrow mono">// how we work</p>
-    <h2>How we deal with it</h2>
-    <p class="section-sub">A simple, transparent engagement flow — you'll always know what's happening and what comes next.</p>
-    <div class="steps">
-      <div class="step"><p class="step-num mono">01</p><h4>Discover</h4><p>A short call to understand your stack, your threat model, and what your customers or auditors are actually asking for.</p></div>
-      <div class="step"><p class="step-num mono">02</p><h4>Scope</h4><p>A tailored statement of work: targets, methodology, timeline, and fixed pricing. No surprises, no hourly meter running.</p></div>
-      <div class="step"><p class="step-num mono">03</p><h4>Test</h4><p>Manual, researcher-grade testing against the agreed scope — with safe, coordinated handling of anything critical we find.</p></div>
-      <div class="step"><p class="step-num mono">04</p><h4>Report</h4><p>A severity-rated report with exploit evidence, business impact, and remediation guidance your engineers can act on immediately.</p></div>
-      <div class="step"><p class="step-num mono">05</p><h4>Retest</h4><p>One retest within 90 days, included — so you can prove to customers, auditors, and counsel that the issues are closed.</p></div>
+    <div class="process-steps">
+      <article class="pstep" data-step="0" data-proof="attack surface mapped">
+        <span class="pstep-num mono">01</span>
+        <h3>Discover</h3>
+        <p>We map your external footprint — domains, IPs, cloud assets, forgotten subdomains — everything an attacker can see before they even knock.</p>
+      </article>
+      <article class="pstep" data-step="1" data-proof="fixed price · fixed timeline">
+        <span class="pstep-num mono">02</span>
+        <h3>Scope</h3>
+        <p>You approve a fixed statement of work: targets, timeline, price. No hourly meters running, no scope creep, no surprises on the invoice.</p>
+      </article>
+      <article class="pstep" data-step="2" data-proof="adversary-minded · manual">
+        <span class="pstep-num mono">03</span>
+        <h3>Test</h3>
+        <p>Manual, adversary-minded testing. Scanners find noise; we find the paths that actually lead somewhere — chained, validated, and evidenced.</p>
+      </article>
+      <article class="pstep" data-step="3" data-proof="board-ready · engineer-ready">
+        <span class="pstep-num mono">04</span>
+        <h3>Report</h3>
+        <p>Severity-rated findings with exploit evidence and concrete fixes — written so your board grasps the risk and your engineers can act on Monday.</p>
+      </article>
+      <article class="pstep" data-step="4" data-proof="0 criticals remain">
+        <span class="pstep-num mono">05</span>
+        <h3>Retest</h3>
+        <p>We verify every fix ourselves. You get documented proof of remediation — the artifact auditors, customers, and counsel ask for.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- TRACK RECORD -->
-<section id="track-record" class="section section-dark">
+<!-- ============ TRACK RECORD ============ -->
+<section id="record" class="section">
   <div class="container">
-    <p class="eyebrow mono">// notable accomplishments</p>
-    <h2>What we've accomplished</h2>
-    <div class="cards cards-2">
-      <div class="card">
-        <h4>MFA bypass research</h4>
-        <p>Successfully bypassed <strong>Microsoft</strong> and <strong>Apple Authenticator</strong> mechanisms, uncovering vulnerabilities in multi-factor authentication systems relied on by millions.</p>
-      </div>
-      <div class="card">
-        <h4>AI infrastructure security</h4>
-        <p>Identified critical flaws in <strong>Meta AI</strong>, exposing internal team member data — and contributed to securing AI infrastructures.</p>
-      </div>
-      <div class="card">
-        <h4>Government recognition</h4>
-        <p>Recognized <strong>7 times by the Government of India</strong> for reporting Priority 1 (P1) vulnerabilities. Discovered and reported a major vulnerability in <strong>SEC.gov</strong>, with remediation efforts still ongoing.</p>
-      </div>
-      <div class="card">
-        <h4>Published CVEs</h4>
-        <p>Credited with <strong>4 CVEs</strong> for uncovering high-impact security flaws:</p>
-        <p class="mono" style="margin-top:10px; color: var(--accent); font-size: 0.85rem;">CVE-2022-33129<br>CVE-2022-33130<br>CVE-2022-33131<br>CVE-2022-33134</p>
-      </div>
-      <div class="card">
-        <h4>Go-to-market engine</h4>
-        <p>Built and actively running a research-driven pipeline: <strong>48 companies</strong> mapped across healthcare, fintech, automotive, and defense tech — prioritized by breach signals, funding events, and security hiring, with tailored scopes and pricing for each.</p>
-      </div>
-      <div class="card">
-        <h4>Compliance fluency</h4>
-        <p>Engagements mapped to the frameworks buyers actually require: <strong>SOC 2, HIPAA, PCI DSS, CMMC / NIST 800-171</strong> — so the output unblocks procurement, not just the audit.</p>
-      </div>
+    <p class="eyebrow mono reveal">// track record</p>
+    <h2 class="reveal">Receipts, <span class="grad">not claims.</span></h2>
+    <p class="section-sub reveal">Findings reported by our founder across some of the hardest targets in the industry:</p>
+    <div class="cves reveal">
+      <span class="cve mono">CVE-2022-33129</span>
+      <span class="cve mono">CVE-2022-33130</span>
+      <span class="cve mono">CVE-2022-33131</span>
+      <span class="cve mono">CVE-2022-33134</span>
+    </div>
+    <div class="cards-3">
+      <article class="pcard reveal">
+        <div class="pcard-num mono">01</div>
+        <h3>MFA bypasses at Microsoft &amp; Apple scale</h3>
+        <p>Authentication-flow vulnerabilities in Microsoft and Apple authenticator mechanisms — the login paths billions of users trust every day.</p>
+      </article>
+      <article class="pcard reveal" data-delay="120">
+        <div class="pcard-num mono">02</div>
+        <h3>Critical flaws in Meta AI</h3>
+        <p>Vulnerabilities exposing internal team-member data — reported, validated, and remediated.</p>
+      </article>
+      <article class="pcard reveal" data-delay="240">
+        <div class="pcard-num mono">03</div>
+        <h3>Recognized where it counts</h3>
+        <p>Seven Priority-1 recognitions from the Government of India. A major SEC.gov vulnerability reported and remediated. Reports filed across Google, US government, and private programs.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section id="pricing" class="section">
+<!-- ============ ROI / PRICING ============ -->
+<section id="pricing" class="section section-alt">
   <div class="container">
-    <p class="eyebrow mono">// pricing</p>
-    <h2>Starting prices</h2>
-    <p class="section-sub">Transparent starting points. Final quotes are fixed in the statement of work before we begin.</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Service</th><th>Starting at</th><th>Typical timeline</th></tr></thead>
+    <p class="eyebrow mono reveal">// pricing</p>
+    <h2 class="reveal">The math <span class="grad">CEOs do.</span></h2>
+    <p class="section-sub reveal">One US breach: <strong>$10.22M</strong>. One external pentest: <strong>$3,500</strong>. That's 0.03% — and unlike the breach, it's optional.</p>
+    <div class="roi reveal">
+      <div class="roi-row">
+        <span class="roi-label mono">AVG. US BREACH · IBM 2025</span>
+        <div class="roi-bar"><span class="roi-fill breach" data-w="100"></span></div>
+        <span class="roi-val mono">$10.22M</span>
+      </div>
+      <div class="roi-row">
+        <span class="roi-label mono">KDS EXTERNAL PENTEST</span>
+        <div class="roi-bar"><span class="roi-fill kds" data-w="2"></span></div>
+        <span class="roi-val mono">$3,500</span>
+      </div>
+    </div>
+    <div class="price-table-wrap reveal">
+      <table class="price-table">
+        <thead><tr><th>Engagement</th><th>Starting at</th><th>Typical timeline</th></tr></thead>
         <tbody>
-          <tr><td>External network pentest (up to 10 IPs)</td><td class="mono">$3,500</td><td>1–2 weeks</td></tr>
-          <tr><td>External network pentest (up to 50 IPs)</td><td class="mono">$6,500</td><td>2–3 weeks</td></tr>
-          <tr><td>Web application VAPT — standard</td><td class="mono">$6,000</td><td>2–3 weeks</td></tr>
-          <tr><td>Web application VAPT — complex</td><td class="mono">$10,000</td><td>3–4 weeks</td></tr>
+          <tr><td>External network pentest · up to 10 IPs</td><td class="mono">$3,500</td><td>1–2 weeks</td></tr>
+          <tr><td>External network pentest · up to 50 IPs</td><td class="mono">$6,500</td><td>2–3 weeks</td></tr>
+          <tr><td>Web application VAPT · standard</td><td class="mono">$6,000</td><td>2–3 weeks</td></tr>
+          <tr><td>Web application VAPT · complex</td><td class="mono">$10,000</td><td>3–4 weeks</td></tr>
           <tr><td>API pentest</td><td class="mono">$5,000</td><td>2–3 weeks</td></tr>
           <tr><td>Combined external + web app</td><td class="mono">$10,000</td><td>3–4 weeks</td></tr>
-          <tr><td>Compliance readiness gap (SOC 2 / HIPAA / PCI / CMMC)</td><td class="mono">$4,000</td><td>2–3 weeks</td></tr>
-          <tr><td>Managed VDP / bounty triage</td><td class="mono">$1,500/mo</td><td>ongoing</td></tr>
-          <tr><td>Post-breach remediation pentest + retest</td><td class="mono">$8,000</td><td>2–3 weeks</td></tr>
+          <tr><td>Compliance readiness gap · SOC 2 / HIPAA / PCI / CMMC</td><td class="mono">$4,000</td><td>2–3 weeks</td></tr>
+          <tr><td>Post-breach remediation pentest</td><td class="mono">$8,000</td><td>2–4 weeks</td></tr>
+          <tr><td>Managed vulnerability triage</td><td class="mono">$1,500/mo</td><td>ongoing</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="fineprint reveal">Transparent starting points. Every engagement ends with a fixed quote in the statement of work — approved by you before we begin.</p>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="section section-dark">
-  <div class="container contact">
-    <p class="eyebrow mono">// contact</p>
-    <h2>Let's scope your test.</h2>
-    <p class="section-sub">Tell us about your stack and what you're trying to unblock — a customer security review, an audit, a breach follow-up, or a program launch. We'll reply with a tailored scope and fixed quote.</p>
-    <div class="hero-cta" style="justify-content: center;">
-      <a class="btn btn-primary" href="mailto:Karandarjishack@gmail.com">Karandarjishack@gmail.com</a>
-      <a class="btn btn-ghost" href="https://github.com/karandarjishack" target="_blank" rel="noopener">Connect on GitHub</a>
+<!-- ============ CTA / CONTACT ============ -->
+<section id="contact" class="section cta-section">
+  <div class="container">
+    <div class="cta-box reveal">
+      <div class="cta-glow" aria-hidden="true"></div>
+      <p class="eyebrow mono">// start here</p>
+      <h2>One assessment.<br><span class="grad">Zero surprises.</span></h2>
+      <p class="section-sub">Tell us where to look. Within days you'll hold a report that shows exactly where attackers would get in — and the proof when it's fixed.</p>
+      <div class="hero-ctas">
+        <a href="mailto:Karandarjishack@gmail.com?subject=KDS%20security%20assessment%20request" class="btn btn-primary magnetic">Request a scope</a>
+        <a class="btn btn-ghost magnetic" href="https://github.com/karandarjishack" target="_blank" rel="noopener">Connect on GitHub</a>
+      </div>
+      <p class="mono cta-mail">Karandarjishack@gmail.com</p>
     </div>
-    <p class="fineprint mono">Based in Detroit, MI · serving clients across the U.S.</p>
   </div>
 </section>
-
-</main>
 
 <footer>
-  <div class="container footer-inner">
-    <span class="mono">&gt;_ KDS</span>
-    <span class="fineprint">Offensive security · VDP programs · Compliance readiness</span>
+  <div class="container foot-inner">
+    <a href="#top" class="brand"><span class="brand-mark">&gt;_</span> KDS</a>
+    <p class="mono foot-tag">Helping companies from external attack.</p>
+    <p class="mono foot-copy">© 2026 KDS · Offensive security, done properly.</p>
   </div>
 </footer>
 
