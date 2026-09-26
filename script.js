@@ -1,4 +1,4 @@
-/* ============ KDS v2 — motion engine ============ */
+/* ============ KDS v3: motion engine ============ */
 (function(){
 "use strict";
 var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -18,7 +18,7 @@ if (finePointer && !reduced) {
     dot.style.left=mx+'px'; dot.style.top=my+'px';
     var t=e.target.closest && e.target.closest('a,button,.svc,.pcard');
     cur.style.width=t?'56px':'34px'; cur.style.height=t?'56px':'34px';
-    cur.style.borderColor=t?'rgba(65,216,255,.8)':'rgba(45,245,154,.5)';
+    cur.style.borderColor=t?'rgba(255,75,51,.85)':'rgba(255,75,51,.45)';
   });
   (function loop(){
     cx+=(mx-cx)*.16; cy+=(my-cy)*.16;
@@ -108,10 +108,10 @@ var LINES=[
   {t:'$ kds recon --target client.com', c:''},
   {t:'[+] 142 subdomains enumerated · 38 live hosts', c:'ok'},
   {t:'[+] cloud inventory: 6 buckets · 2 publicly readable', c:'ok'},
-  {t:'[!] CRITICAL — MFA bypass · /login (auth flow)', c:'crit'},
-  {t:'[!] HIGH — exposed .git · staging.client.com', c:'warn'},
+  {t:'[!] CRITICAL: MFA bypass · /login (auth flow)', c:'crit'},
+  {t:'[!] HIGH: exposed .git · staging.client.com', c:'warn'},
   {t:'[+] exploit chain confirmed: unauthenticated → admin', c:''},
-  {t:'[✓] fixes verified on retest — 0 criticals remain', c:'ok'}
+  {t:'[✓] fixes verified on retest. 0 criticals remain', c:'ok'}
 ];
 if (termBody && !reduced) {
   var li=0, ci=0, cur2=null;
@@ -178,7 +178,7 @@ if (termBody && !reduced) {
   resize(); addEventListener('resize',resize);
 
   function px(n){ return {x:n.x*W, y:n.y*H}; }
-  var COL={dim:'rgba(140,170,215,', scan:'rgba(65,216,255,', vuln:'rgba(255,84,104,', ok:'rgba(45,245,154,'};
+  var COL={dim:'rgba(160,160,170,', scan:'rgba(245,243,236,', vuln:'rgba(255,75,51,', ok:'rgba(61,220,132,'};
 
   function activate(n){
     if(n.state!==0) return;
@@ -214,20 +214,20 @@ if (termBody && !reduced) {
       ctx.beginPath(); ctx.arc(p.x,p.y,r+8+Math.sin(t/110)*3,0,7); ctx.stroke(); }
     // label
     ctx.font='600 10px "JetBrains Mono",monospace'; ctx.textAlign='center';
-    ctx.fillStyle=n.state===2?COL.vuln+'1)':(n.state===3?COL.ok+'.85)':'rgba(150,180,220,.55)');
+    ctx.fillStyle=n.state===2?COL.vuln+'1)':(n.state===3?COL.ok+'.85)':'rgba(160,160,170,.55)');
     ctx.fillText(n.l,p.x,p.y-r-10);
     if(n.label){
       n.lt++;
       var la=Math.min(1,n.lt/20)*(n.lt>160?Math.max(0,1-(n.lt-160)/40):1);
       ctx.font='700 10.5px "JetBrains Mono",monospace';
       var tw=ctx.measureText(n.label).width;
-      ctx.fillStyle=n.state===2?'rgba(60,8,14,'+(.85*la)+')':'rgba(4,20,12,'+(.85*la)+')';
+      ctx.fillStyle=n.state===2?'rgba(50,10,6,'+(.85*la)+')':'rgba(4,20,12,'+(.85*la)+')';
       ctx.strokeStyle=n.state===2?COL.vuln+(.9*la)+')':COL.ok+(.9*la)+')'; ctx.lineWidth=1;
       var bx=p.x-tw/2-9, by=p.y+r+12, bw=tw+18, bh=20;
       ctx.beginPath();
       if(ctx.roundRect) ctx.roundRect(bx,by,bw,bh,6); else ctx.rect(bx,by,bw,bh);
       ctx.fill(); ctx.stroke();
-      ctx.fillStyle=n.state===2?'#ffd7dc':'#c9ffe4';
+      ctx.fillStyle=n.state===2?'#ffd9d2':'#c9ffe4';
       ctx.fillText(n.label,p.x,by+14);
     }
   }
@@ -241,14 +241,14 @@ if (termBody && !reduced) {
     particles.forEach(function(p){
       p.x+=p.vx; p.y+=p.vy;
       if(p.x<0)p.x=1; if(p.x>1)p.x=0; if(p.y<0)p.y=1; if(p.y>1)p.y=0;
-      ctx.fillStyle='rgba(140,180,230,.16)';
+      ctx.fillStyle='rgba(160,160,170,.16)';
       ctx.beginPath(); ctx.arc(p.x*W,p.y*H,p.s,0,7); ctx.fill();
     });
     // links
     LINKS.forEach(function(L){
       var a=px(nodes[L[0]]), b=px(nodes[L[1]]);
       var hot=(nodes[L[0]].state===2||nodes[L[1]].state===2);
-      ctx.strokeStyle=hot?'rgba(255,84,104,.35)':'rgba(120,170,230,.10)';
+      ctx.strokeStyle=hot?'rgba(255,75,51,.35)':'rgba(160,160,170,.10)';
       ctx.lineWidth=hot?1.4:1;
       ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
     });
@@ -258,9 +258,9 @@ if (termBody && !reduced) {
     }
     var sx=sweep.x*W;
     var sg=ctx.createLinearGradient(sx-90,0,sx+40,0);
-    sg.addColorStop(0,'rgba(65,216,255,0)'); sg.addColorStop(1,'rgba(65,216,255,.14)');
+    sg.addColorStop(0,'rgba(245,243,236,0)'); sg.addColorStop(1,'rgba(245,243,236,.14)');
     ctx.fillStyle=sg; ctx.fillRect(sx-90,0,130,H);
-    ctx.strokeStyle='rgba(65,216,255,.5)'; ctx.lineWidth=1.5;
+    ctx.strokeStyle='rgba(245,243,236,.5)'; ctx.lineWidth=1.5;
     ctx.beginPath(); ctx.moveTo(sx,0); ctx.lineTo(sx,H); ctx.stroke();
     nodes.forEach(function(n){ if(Math.abs(n.x-sweep.x)<.012) activate(n); });
     // attack path cinematic
@@ -274,7 +274,7 @@ if (termBody && !reduced) {
       var seg=Math.floor(attackP), fp=attackP-seg;
       for(var s=0;s<Math.min(seg+1,attackPath.length-1);s++){
         var A=px(nodes[attackPath[s]]), B=px(nodes[attackPath[Math.min(s+1,attackPath.length-1)]]);
-        ctx.strokeStyle='rgba(255,84,104,.75)'; ctx.lineWidth=2; ctx.setLineDash([7,7]);
+        ctx.strokeStyle='rgba(255,75,51,.75)'; ctx.lineWidth=2; ctx.setLineDash([7,7]);
         ctx.lineDashOffset=-frame*.6;
         ctx.beginPath(); ctx.moveTo(A.x,A.y);
         if(s<seg) ctx.lineTo(B.x,B.y);
@@ -297,7 +297,7 @@ if (termBody && !reduced) {
     nodes.forEach(function(n,i){ if(i%3===0){n.state=3;} });
     (function once(){ ctx.clearRect(0,0,W,H);
       LINKS.forEach(function(L){ var a=px(nodes[L[0]]),b=px(nodes[L[1]]);
-        ctx.strokeStyle='rgba(120,170,230,.12)'; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); });
+        ctx.strokeStyle='rgba(160,160,170,.12)'; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); });
       nodes.forEach(function(n){ drawNode(n,0); });
     })();
   } else {
@@ -349,7 +349,7 @@ if (finePointer && !reduced){
   });
 }
 
-/* ---------- ticker: duplicate for seamless loop ---------- */
+/* ---------- ticker: duplicate for gapless loop ---------- */
 (function(){
   var tr=document.getElementById('ticker-track');
   if(tr) tr.innerHTML+=tr.innerHTML;
