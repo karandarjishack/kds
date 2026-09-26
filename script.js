@@ -15,14 +15,17 @@ if (finePointer && !reduced) {
   var mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
   addEventListener('mousemove', function(e){
     mx=e.clientX; my=e.clientY;
-    dot.style.left=mx+'px'; dot.style.top=my+'px';
+    dot.style.transform='translate('+mx+'px,'+my+'px) translate(-50%,-50%)';
     var t=e.target.closest && e.target.closest('a,button,.svc,.pcard');
     cur.style.width=t?'56px':'34px'; cur.style.height=t?'56px':'34px';
     cur.style.borderColor=t?'rgba(255,75,51,.85)':'rgba(255,75,51,.45)';
   });
   (function loop(){
-    cx+=(mx-cx)*.16; cy+=(my-cy)*.16;
-    cur.style.left=cx+'px'; cur.style.top=cy+'px';
+    var dx=mx-cx, dy=my-cy;
+    if(Math.abs(dx)>.1||Math.abs(dy)>.1){ /* sleep when idle: no per-frame layout work */
+      cx+=dx*.16; cy+=dy*.16;
+      cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';
+    }
     requestAnimationFrame(loop);
   })();
 } else {
@@ -155,7 +158,7 @@ if (termBody && !reduced) {
 (function(){
   var cv=document.getElementById('net'); if(!cv) return;
   var ctx=cv.getContext('2d');
-  var W=0,H=0,DPR=1, running=true;
+  var W=0,H=0,DPR=1;
   var NODES=[
     {x:.08,y:.30,l:'WEB'},{x:.20,y:.62,l:'API'},{x:.30,y:.24,l:'VPN'},
     {x:.38,y:.55,l:'MX'},{x:.47,y:.30,l:'S3'},{x:.55,y:.66,l:'CDN'},
@@ -171,7 +174,7 @@ if (termBody && !reduced) {
   for(var i=0;i<46;i++) particles.push({x:Math.random(),y:Math.random(),s:.4+Math.random()*1.4,vx:(Math.random()-.5)*.0004,vy:(Math.random()-.5)*.0004});
 
   function resize(){
-    DPR=Math.min(devicePixelRatio||1,1.5);
+    DPR=1; /* ambient canvas: DPR 1 is plenty for glowing dots, halves the pixels to shade */
     W=cv.clientWidth; H=cv.clientHeight;
     cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
   }
@@ -180,14 +183,20 @@ if (termBody && !reduced) {
   function px(n){ return {x:n.x*W, y:n.y*H}; }
   var COL={dim:'rgba(160,160,170,', scan:'rgba(245,243,236,', vuln:'rgba(255,75,51,', ok:'rgba(61,220,132,'};
 
+  function setLabel(n,text){ /* cache text width once: measureText every frame was wasteful */
+    n.label=text; n.lt=0;
+    ctx.font='700 10.5px "JetBrains Mono",monospace';
+    n.lw=ctx.measureText(text).width;
+  }
+
   function activate(n){
     if(n.state!==0) return;
     n.state=1; n.t=0; n.ring=0;
     setTimeout(function(){
       if(Math.random()<.58){
-        n.state=2; n.label=VULNS[Math.floor(Math.random()*VULNS.length)]; n.lt=0;
-        setTimeout(function(){ n.state=3; n.label='PATCHED ✓'; n.lt=0; }, 1100+Math.random()*700);
-      } else { n.state=3; n.label='CLEAN'; n.lt=0; }
+        n.state=2; setLabel(n,VULNS[Math.floor(Math.random()*VULNS.length)]);
+        setTimeout(function(){ n.state=3; setLabel(n,'PATCHED ✓'); }, 1100+Math.random()*700);
+      } else { n.state=3; setLabel(n,'CLEAN'); }
     }, 650+Math.random()*400);
   }
 
@@ -196,10 +205,9 @@ if (termBody && !reduced) {
     if(n.state===1){ col=COL.scan; alpha=.95; }
     if(n.state===2){ col=COL.vuln; alpha=1; r+=Math.sin(t/90)*1.6; }
     if(n.state===3){ col=COL.ok; alpha=.9; }
-    // glow
-    var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*4);
-    g.addColorStop(0,col+alpha*.5+')'); g.addColorStop(1,col+'0)');
-    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,r*4,0,7); ctx.fill();
+    // glow (flat alpha disc: same look as the old radial gradient, ~10x cheaper)
+    ctx.globalAlpha=alpha*.30; ctx.fillStyle=col+'1)';
+    ctx.beginPath(); ctx.arc(p.x,p.y,r*4,0,7); ctx.fill(); ctx.globalAlpha=1;
     // core
     ctx.fillStyle=col+'1)'; ctx.beginPath(); ctx.arc(p.x,p.y,r,0,7); ctx.fill();
     if(n.crown){ ctx.strokeStyle=COL.ok+'1)'; ctx.lineWidth=1.5;
@@ -220,7 +228,7 @@ if (termBody && !reduced) {
       n.lt++;
       var la=Math.min(1,n.lt/20)*(n.lt>160?Math.max(0,1-(n.lt-160)/40):1);
       ctx.font='700 10.5px "JetBrains Mono",monospace';
-      var tw=ctx.measureText(n.label).width;
+      var tw=n.lw||0;
       ctx.fillStyle=n.state===2?'rgba(50,10,6,'+(.85*la)+')':'rgba(4,20,12,'+(.85*la)+')';
       ctx.strokeStyle=n.state===2?COL.vuln+(.9*la)+')':COL.ok+(.9*la)+')'; ctx.lineWidth=1;
       var bx=p.x-tw/2-9, by=p.y+r+12, bw=tw+18, bh=20;
@@ -232,9 +240,11 @@ if (termBody && !reduced) {
     }
   }
 
-  var frame=0;
+  var frame=0, rafId=null, lastT=0;
   function tick(t){
-    if(!running){ requestAnimationFrame(tick); return; }
+    rafId=requestAnimationFrame(tick);
+    if(t-lastT<34) return; /* ~30fps is plenty for ambient motion; halves the workload */
+    lastT=t;
     frame++;
     ctx.clearRect(0,0,W,H);
     // particles
@@ -283,13 +293,12 @@ if (termBody && !reduced) {
       }
       if(attackP>=attackPath.length-1){
         var crown=nodes[attackPath[attackPath.length-1]];
-        crown.state=2; crown.label='CROWN JEWELS · REACHED'; crown.lt=0;
-        setTimeout(function(){ crown.state=3; crown.label='CONTAINED ✓'; crown.lt=0; },1400);
+        crown.state=2; setLabel(crown,'CROWN JEWELS · REACHED');
+        setTimeout(function(){ crown.state=3; setLabel(crown,'CONTAINED ✓'); },1400);
         attackPath=null;
       }
     }
     nodes.forEach(function(n){ drawNode(n,t||0); });
-    requestAnimationFrame(tick);
   }
 
   if(reduced){
@@ -301,10 +310,14 @@ if (termBody && !reduced) {
       nodes.forEach(function(n){ drawNode(n,0); });
     })();
   } else {
+    /* fully stop the loop when the hero is off-screen (the old version kept
+       requesting frames forever, burning CPU on invisible work) */
     new IntersectionObserver(function(es){
-      es.forEach(function(e){ running=e.isIntersecting; });
+      es.forEach(function(e){
+        if(e.isIntersecting){ if(rafId===null){ lastT=0; rafId=requestAnimationFrame(tick); } }
+        else { if(rafId!==null){ cancelAnimationFrame(rafId); rafId=null; } }
+      });
     }).observe(cv);
-    requestAnimationFrame(tick);
   }
 })();
 
