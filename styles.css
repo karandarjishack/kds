@@ -233,3 +233,31 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0}
   .reveal{opacity:1;transform:none}
   #boot{display:none}
 }
+
+/* ---------- contact / intake ---------- */
+[hidden]{display:none!important}
+.contact-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:64px;align-items:start;margin-top:8px}
+.hook{font-family:var(--fd);font-size:24px;line-height:1.35;font-weight:700;letter-spacing:-.015em;padding-left:22px;border-left:3px solid var(--red);margin-bottom:44px}
+.steps{list-style:none;display:flex;flex-direction:column;margin-bottom:8px}
+.steps li{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:24px 0;border-top:1px solid var(--line)}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps .mono{font-size:12.5px;color:var(--red);letter-spacing:.18em;padding-top:4px}
+.steps h4{font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:6px}
+.steps p{color:var(--mut);font-size:15px}
+.text-link{color:var(--txt);border-bottom:1px solid var(--red)}
+.form-card{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:clamp(26px,3.4vw,42px)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:12.5px;letter-spacing:.08em;color:var(--mut);margin-bottom:8px;font-weight:500}
+.field input,.field select,.field textarea{width:100%;background:#0d0d0f;border:1px solid var(--line);border-radius:6px;color:var(--txt);font-family:var(--fb);font-size:15px;padding:13px 15px;transition:border-color .25s}
+.field textarea{resize:vertical;min-height:96px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--red)}
+.field select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a9a9b2' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.form-err{color:var(--red);font-size:12.5px;letter-spacing:.04em;margin-bottom:14px}
+.form-submit{width:100%;margin-top:6px}
+.form-ok{margin-top:20px;border:1px solid rgba(61,220,132,.35);background:rgba(61,220,132,.07);border-radius:6px;padding:18px 20px;animation:fadeUp .5s var(--ease)}
+.form-ok-title{font-family:var(--fd);font-weight:700;margin-bottom:6px;color:var(--txt)}
+.form-ok p{font-size:14.5px;color:var(--mut)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+@media(max-width:1020px){.contact-grid{grid-template-columns:1fr;gap:48px}}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}}

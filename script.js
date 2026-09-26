@@ -355,3 +355,31 @@ if (finePointer && !reduced){
   if(tr) tr.innerHTML+=tr.innerHTML;
 })();
 })();
+
+/* ---------- scope form: guided intake -> prefilled professional email ---------- */
+(function(){
+  var form=document.getElementById('scope-form'); if(!form) return;
+  var err=document.getElementById('form-err'), ok=document.getElementById('form-ok');
+  function val(id){ var el=document.getElementById(id); return el?el.value.trim():''; }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=val('f-name'), email=val('f-email'), company=val('f-company');
+    err.hidden=true;
+    if(!name||!email||!company||email.indexOf('@')<0||email.indexOf('.')<0){ err.hidden=false; return; }
+    var website=val('f-site'), scope=val('f-scope'), when=val('f-when'), details=val('f-msg');
+    var subject='KDS assessment request: '+company;
+    var body=
+      'Hi KDS team,\n\n'+
+      "I'd like to request a security assessment.\n\n"+
+      'Name: '+name+'\n'+
+      'Work email: '+email+'\n'+
+      'Company: '+company+'\n'+
+      (website?'Website: '+website+'\n':'')+
+      'Scope: '+scope+'\n'+
+      'Timeline: '+when+'\n'+
+      (details?'\nDetails:\n'+details+'\n':'')+
+      '\nSent from karandarjishack.github.io/kds';
+    window.location.href='mailto:Karandarjishack@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    ok.hidden=false;
+  });
+})();

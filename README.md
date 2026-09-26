@@ -13,7 +13,13 @@ Static site — `index.html`, `styles.css`, `script.js`. No build step, no depen
 - **Process** — Discover → Scope → Test → Report → Retest
 - **Track Record** — accomplishments to date
 - **Pricing** — starting prices per service
-- **Contact** — scope request
+- **Contact** — guided scope-request intake that prefills a professional email
+
+## Contact
+
+- Website: https://karandarjishack.github.io/kds/
+- Email: Karandarjishack@gmail.com
+- GitHub: https://github.com/karandarjishack
 
 ## Local preview
 
