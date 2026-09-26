@@ -261,3 +261,4 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
 @media(max-width:1020px){.contact-grid{grid-template-columns:1fr;gap:48px}}
 @media(max-width:560px){.form-row{grid-template-columns:1fr}}
+.log-sub{font-family:var(--fd);font-size:20px;font-weight:700;letter-spacing:-.01em;margin:60px 0 4px}
